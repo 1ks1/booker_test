@@ -1,0 +1,28 @@
+putIsAuth: function() {
+      var t = this.userData.token;
+      var e = this.userData.email;
+      this.$http.put(this.url+'IsAuth/',{token:t,email:e}
+      , {
+          headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          }
+      }
+      )
+      .then(response => {
+        var res = JSON.stringify(response.data);
+        this.list = JSON.parse(res || {});
+        console.log('----isAuth----');
+        console.log(this.list);
+        if (res.auth !== 1 || res.auth == "have_no_token") {
+          this.userData.regstat = 0;
+          return true;
+        } else {
+          this.userData.regstat = 1;
+          return false;
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    },
